@@ -1,0 +1,69 @@
+:root {
+  /* iOS 16+ System Colors (Light Default) */
+  --system-bg: #F2F2F7;
+  --system-card: #FFFFFF;
+  --system-text: #000000;
+  --system-text-muted: #8E8E93;
+  --system-accent: #007AFF;
+  --system-accent-muted: #E5F1FF;
+  
+  --success: #34C759;
+  --danger: #FF3B30;
+  --warning: #FF9500;
+  
+  --border-light: rgba(60, 60, 67, 0.12);
+  --border-separator: rgba(60, 60, 67, 0.1);
+  --shadow-ios: 0 4px 20px rgba(0, 0, 0, 0.05);
+  
+  /* Typography - Apple Native Stack */
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  
+  /* Layout Metrics */
+  --radius-ios: 14px;
+  --radius-ios-lg: 20px;
+  --radius-ios-pill: 100px;
+  --nav-height: 84px; /* iOS standard height with safe areas */
+}
+
+/* iOS 16+ System Colors (Dark Mode) */
+[data-theme="dark"] {
+  --system-bg: #000000;
+  --system-card: #1C1C1E;
+  --system-text: #FFFFFF;
+  --system-text-muted: #8E8E93;
+  --system-accent: #0A84FF;
+  --system-accent-muted: #002D52;
+  
+  --success: #30D158;
+  --danger: #FF453A;
+  --warning: #FF9F0A;
+  
+  --border-light: rgba(84, 84, 88, 0.48);
+  --border-separator: rgba(84, 84, 88, 0.3);
+  --shadow-ios: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Map existing aliases to new system for seamless migration */
+:root, [data-theme="dark"] {
+  --bg-cream: var(--system-bg);
+  --bg-cream-alt: var(--system-bg);
+  --primary-forest: var(--system-accent);
+  --accent-gold: var(--system-text);
+  
+  --text-main: var(--system-text);
+  --text-muted: var(--system-text-muted);
+  --text-light: var(--system-text);
+  
+  --expense-color: var(--danger);
+  --income-color: var(--success);
+  --transfer-color: var(--system-text-muted);
+  
+  --border-gold: var(--border-light);
+  --shadow-subtle: var(--shadow-ios);
+  --shadow-gold: var(--shadow-ios);
+  
+  --radius-sm: 8px;
+  --radius-md: var(--radius-ios);
+  --radius-lg: var(--radius-ios-lg);
+  --nav-height-mobile: var(--nav-height);
+}

@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1B4D3E" />
+    <title>Szabo Financial Tracker</title>
+    <meta name="description" content="The Ledger is the truth. High-performance offline financial tracker." />
+    <link rel="manifest" href="/manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app" class="app-layout">
+      <!-- Nav -->
+      <nav class="app-nav">
+        <div class="nav-links">
+          <a href="#" data-target="dashboard" class="nav-link active">
+            <span class="icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+            </span>
+            <span class="label">Dashboard</span>
+          </a>
+          <a href="#" data-target="ledger" class="nav-link">
+            <span class="icon">
+              <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            </span>
+            <span class="label">Ledger</span>
+          </a>
+          
+          <div class="nav-add-btn-wrapper">
+            <a href="#" data-target="add" class="nav-link nav-add-btn" id="nav-btn-add">
+              <span class="icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              </span>
+            </a>
+          </div>
+
+          <a href="#" data-target="wallets" class="nav-link">
+            <span class="icon">
+              <svg viewBox="0 0 24 24"><path d="M20 7h-9l-1-1H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"></path></svg>
+            </span>
+            <span class="label">Wallets</span>
+          </a>
+          <a href="#" data-target="settings" class="nav-link">
+            <span class="icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </span>
+            <span class="label">Settings</span>
+          </a>
+        </div>
+      </nav>
+
+      <main class="app-content">
+        <!-- Views -->
+        <section id="view-dashboard" class="view active">
+          <div class="dashboard-branding-sticky" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px;">
+            <div class="branding-content" style="text-align: left;">
+              <h1 class="brand-title" style="font-size: 26px; line-height: 1;">Szabo</h1>
+              <p class="brand-tagline" style="font-size: 11px; margin-top: -2px; opacity: 0.8;">The ledger is the truth</p>
+            </div>
+            <a href="https://gemini.google.com/" target="_blank" class="help-btn" style="font-size: 13px; font-weight: 700; color: var(--system-accent); text-decoration: none; padding: 6px 14px; background: rgba(0, 122, 255, 0.1); border-radius: 20px; border: 1px solid var(--system-accent);">
+              Help
+            </a>
+          </div>
+          
+          <div class="net-worth-card glass-card" style="background: linear-gradient(135deg, #007AFF, #5AC8FA); border: none; box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3); color: white;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 13px; opacity: 0.8; font-weight: 500;">Total Net Worth</span>
+              <span id="btn-toggle-nw-visibility" style="cursor: pointer; opacity: 0.8; display: flex; align-items: center; padding: 4px;">
+                <!-- Eye icon will be injected by JS -->
+              </span>
+            </div>
+            <h1 id="net-worth-amount" style="margin-top: 4px; color: white !important; font-size: 32px; letter-spacing: -1px;">₱0.00</h1>
+            
+            <div style="text-align: left; margin-bottom: -15px; position: relative; z-index: 10;">
+              <span id="as-of-date" style="font-size: 11px; font-style: normal; font-weight: 500; opacity: 0.7; color: white;">As of Today</span>
+            </div>
+            <div class="monthly-summary-grid mt-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+              <div class="summary-item" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 14px; padding: 14px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <span style="font-size: 10px; text-transform: uppercase; font-weight: 800; opacity: 0.9; color: white; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">Income</span>
+                <h4 id="month-income-amount" style="font-size: 17px; margin: 0; color: #00FF88 !important; font-weight: 700; letter-spacing: -0.5px;">₱0.00</h4>
+              </div>
+              <div class="summary-item" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 14px; padding: 14px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <span style="font-size: 10px; text-transform: uppercase; font-weight: 800; opacity: 0.9; color: white; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">Expenses</span>
+                <h4 id="month-expense-amount" style="font-size: 17px; margin: 0; color: #FF3131 !important; font-weight: 700; letter-spacing: -0.5px;">₱0.00</h4>
+              </div>
+            </div>
+            <div id="dashboard-budgets-section"></div>
+          </div>
+
+          <!-- Smart Insights Section -->
+          <div class="insights-header mt-4" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted);">Smart Insights</h3>
+            <span id="btn-toggle-insights" style="font-size: 13px; color: var(--system-accent); cursor: pointer; font-weight: 500;">Hide</span>
+          </div>
+          <div id="dashboard-insights-container" class="insights-stack" style="overflow: hidden; transition: all 0.3s ease-out; margin-bottom: 24px;"></div>
+
+          <!-- Dashboard Analytics (Consolidated) -->
+          <div class="glass-card mb-4" style="padding: 1rem 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 16px;">
+              <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted);">Spending Trends</h3>
+              <select id="analytics-mode" class="modern-select" style="padding: 4px 8px; font-size: 13px; width: auto; background: transparent; border: none; font-weight: 600; color: var(--system-accent);">
+                <option value="absolute">Absolute</option>
+                <option value="cumulative">Cumulative</option>
+              </select>
+            </div>
+            
+            <div class="chart-container" style="max-width: none; height: 180px; margin: 0 0 8px 0; padding: 0 16px;">
+              <svg id="spending-chart" viewBox="0 0 400 200" preserveAspectRatio="none" style="width: 100%; height: 100%; overflow: visible;"></svg>
+            </div>
+
+            <!-- Enhanced Chart Legend -->
+            <div class="chart-legend" style="display: flex; justify-content: center; align-items: center; gap: 32px; padding: 12px 16px; border-top: 0.5px solid var(--border-separator);">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: #34C759; box-shadow: 0 0 5px rgba(52, 199, 89, 0.3);"></span>
+                <span style="font-size: 12px; font-weight: 600; color: var(--system-text-muted);">Income</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: #FF3B30; box-shadow: 0 0 5px rgba(255, 59, 48, 0.3);"></span>
+                <span style="font-size: 12px; font-weight: 600; color: var(--system-text-muted);">Expenses</span>
+              </div>
+            </div>
+
+            <div class="analytics-controls" style="display: flex; justify-content: center; align-items: center; padding: 0 16px;">
+              <div id="analytics-period-btns" style="display: flex; gap: 20px;">
+                <span class="period-btn" data-value="7">7D</span>
+                <span class="period-btn active" data-value="30">30D</span>
+                <span class="period-btn" data-value="90">90D</span>
+                <span class="period-btn" data-value="365">1Y</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="recent-transactions mt-4">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
+              <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted); margin: 0;">Recent Activity</h3>
+              <span id="btn-toggle-activity" style="font-size: 13px; color: var(--system-accent); cursor: pointer; font-weight: 500;">Hide</span>
+            </div>
+            <div id="dashboard-recent-list" class="transaction-list" style="overflow: hidden; transition: all 0.3s ease-out;"></div>
+          </div>
+        </section>
+
+        <section id="view-ledger" class="view">
+          <header class="view-header" style="margin-bottom: 0.8rem; border-bottom: none;">
+            <h2>The Ledger</h2>
+          </header>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1.2rem; width: 100%;">
+            <input type="text" id="ledger-search" class="modern-select" placeholder="Search entries..." style="flex: 1.5; padding: 0.6rem 0.8rem;" />
+            <select id="ledger-wallet-filter" class="modern-select" style="flex: 1; padding: 0.6rem 0.8rem;">
+              <option value="all">All Wallets</option>
+            </select>
+          </div>
+          <div id="ledger-list" class="transaction-list"></div>
+        </section>
+
+        <section id="view-add" class="view">
+          <header class="view-header">
+            <h2>Add Entry</h2>
+          </header>
+          <div class="glass-card">
+            <form id="add-transaction-form" class="modern-form">
+              <div id="add-tx-type-selector" class="analytics-controls mb-4" style="display: flex; gap: 20px; justify-content: flex-start; padding: 10px 0;">
+                <span class="period-btn active" data-value="expense">EXPENSES</span>
+                <span class="period-btn" data-value="income">INCOME</span>
+                <span class="period-btn" data-value="transfer">TRANSFER</span>
+              </div>
+              
+              <div class="form-group">
+                <label for="trans-amount">Amount</label>
+                <input type="number" id="trans-amount" step="0.01" required placeholder="0.00" class="large-input" />
+              </div>
+
+              <div class="form-group">
+                <label for="trans-wallet">Wallet</label>
+                <select id="trans-wallet" class="modern-select" required></select>
+              </div>
+
+              <div class="form-group" id="transfer-to-group" style="display: none;">
+                <label for="trans-wallet-to">Transfer To</label>
+                <select id="trans-wallet-to" class="modern-select"></select>
+              </div>
+
+              <div class="form-group" id="category-group">
+                <label for="trans-category">Category</label>
+                <input type="text" id="trans-category" list="category-list" placeholder="e.g. Groceries" />
+                <datalist id="category-list"></datalist>
+              </div>
+
+              <div class="form-group">
+                <label for="trans-date">Date</label>
+                <input type="datetime-local" id="trans-date" required />
+              </div>
+
+              <div class="form-group">
+                <label for="trans-note">Note</label>
+                <input type="text" id="trans-note" placeholder="Optional notes..."/>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">Record to Ledger</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="view-wallets" class="view">
+          <header class="view-header">
+            <h2>Wallets</h2>
+            <h3 id="wallets-total-amount" class="text-gold">₱0.00</h3>
+          </header>
+
+          <div id="add-wallet-container" style="display:none;" class="glass-card mb-4">
+            <form id="add-wallet-form" class="modern-form">
+              <div class="form-group">
+                <label for="wallet-name">Wallet Name</label>
+                <input type="text" id="wallet-name" required placeholder="e.g. Cash Pocket" />
+              </div>
+              <div class="form-group">
+                <label for="wallet-balance">Initial Balance</label>
+                <input type="number" id="wallet-balance" step="0.01" value="0" />
+              </div>
+              <div class="form-actions" style="display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>
+                <button type="button" class="btn btn-outline" id="btn-cancel-wallet" style="flex: 1;">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="wallets-list" class="wallets-grid"></div>
+        </section>
+
+
+
+        <section id="view-settings" class="view">
+          <header class="view-header">
+            <h2>Settings</h2>
+          </header>
+
+          <!-- Theme Appearance -->
+          <div class="glass-card mb-4" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h3 style="margin:0; font-size: 17px;">Dark Mode</h3>
+              <p class="text-muted" style="margin: 2px 0 0 0; font-size: 13px;">Match your style</p>
+            </div>
+            <label class="ios-switch">
+              <input type="checkbox" id="theme-toggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="glass-card mb-4" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h3 style="margin:0; font-size: 17px;">Budget Alerts</h3>
+              <p class="text-muted" style="margin: 2px 0 0 0; font-size: 13px;">Proactive spending warnings</p>
+            </div>
+            <label class="ios-switch">
+              <input type="checkbox" id="budget-alerts-toggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <!-- System Data -->
+          <div class="glass-card mb-4">
+            <h3 class="mb-2">Backup & Restore</h3>
+            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">Export your full financial data to a JSON file, or restore from a previous backup. Restoring will overwrite existing data.</p>
+            <div style="display: flex; gap: 1rem; align-items: flex-start; flex-wrap: nowrap;">
+              <button id="btn-export" class="btn btn-outline" style="flex: 0.4; padding: 0.8rem 0.5rem; white-space: nowrap; font-size: 13px;">Export Backup</button>
+              <div style="flex: 1; display:flex; flex-direction:column; gap:0.6rem; min-width: 0;">
+                <input type="file" id="restore-file" accept=".json" class="modern-select" style="width:100%; padding: 0.8rem; font-size: 13px; min-height: 44px; display: flex; align-items: center;" />
+                <button id="btn-restore-trigger" class="btn btn-danger" style="display: none; padding: 0.8rem; font-size: 14px; font-weight: 700; width: 100%;">Restore Now</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card mb-4" style="background: transparent; box-shadow: none; padding: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 1rem;">
+              <h3 style="margin: 0; font-size: 17px; font-weight: 600;">Categories</h3>
+              <span id="btn-toggle-categories" style="font-size: 13px; color: var(--system-accent); cursor: pointer; font-weight: 500;">Hide</span>
+            </div>
+            
+            <div id="settings-categories-wrapper" style="overflow: hidden; transition: all 0.3s ease-out;">
+            <form id="add-category-form" class="modern-form mb-4 glass-card" style="padding:1rem;">
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: flex-end;">
+                <div class="form-group" style="flex:1; min-width: 140px; margin-bottom: 0;">
+                  <label for="cat-name">Category Name</label>
+                  <input type="text" id="cat-name" required placeholder="e.g. Subscriptions" />
+                </div>
+                <div class="form-group" style="flex:2; min-width: 200px; margin-bottom: 0;">
+                  <label for="cat-desc">Description</label>
+                  <input type="text" id="cat-desc" placeholder="Details (optional)" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-bottom:0; padding: 0.6rem 1.2rem;">Add</button>
+              </div>
+            </form>
+
+            <div id="settings-categories-list" style="display: flex; flex-direction: column; gap: 0.8rem;">
+              <!-- Cascading cards rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+          <div class="glass-card mb-4" style="background: transparent; box-shadow: none; padding: 0;">
+            <h3 class="mb-2" style="padding: 0 1rem;">Monthly Budget Targets</h3>
+            
+            <form id="add-budget-form" class="modern-form mb-4 glass-card" style="padding:1rem;">
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: flex-end;">
+                <div class="form-group" style="flex:1; min-width: 140px; margin-bottom: 0;">
+                  <label for="budget-category">Category</label>
+                  <select id="budget-category" class="modern-select" required></select>
+                </div>
+                <div class="form-group" style="flex:1; min-width: 120px; margin-bottom: 0;">
+                  <label for="budget-amount">Monthly Limit</label>
+                  <input type="number" id="budget-amount" required placeholder="0.00" step="0.01" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-bottom:0; padding: 0.6rem 1.2rem;">Save</button>
+              </div>
+            </form>
+
+            <div id="settings-budgets-list" style="display: flex; flex-direction: column; gap: 0.8rem;">
+              <!-- Budgets list rendered via JS -->
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <button id="global-fab" class="fab-btn" style="display:none;">
+        <span class="icon" style="pointer-events: none;">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </span>
+      </button>
+
+      <!-- Transaction Detail Modal -->
+      <div id="tx-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+          <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 0.5px solid var(--border-separator); padding-bottom: 12px; margin-bottom: 20px;">
+            <h3 style="margin: 0; font-size: 17px; font-weight: 600;">Transaction Details</h3>
+            <button id="btn-close-tx-modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--system-accent);">&times;</button>
+          </header>
+          <div id="tx-modal-body" style="line-height: 1.5;"></div>
+        </div>
+      </div>
+
+    </div>
+    
+    <script type="module" src="/src/main.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => {
+            console.log('SW registration failed:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,515 @@
+/* iOS Buttons */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  font-size: 17px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+  gap: 8px;
+}
+
+.btn:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+}
+
+.btn-primary {
+  background: var(--system-accent);
+  color: #FFFFFF;
+}
+
+.btn-outline {
+  background: var(--system-accent-muted);
+  color: var(--system-accent);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+/* iOS Inset Grouped Cards */
+.glass-card {
+  background: var(--system-card);
+  border-radius: var(--radius-ios);
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-ios);
+  border: 1px solid var(--border-separator);
+}
+
+/* Transaction & Wallet List Items (iOS List Style) */
+.transaction-list, .wallets-list {
+  background: var(--system-card);
+  border-radius: var(--radius-ios);
+  overflow: hidden;
+  box-shadow: var(--shadow-ios);
+  border: 1px solid var(--border-separator);
+}
+
+.tx-item, .wallet-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--system-card);
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--border-separator);
+  transition: background 0.2s;
+}
+
+.tx-item:last-child, .wallet-card:last-child {
+  border-bottom: none;
+}
+
+.tx-item:active, .wallet-card:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.tx-title, .w-name {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--system-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tx-meta, .w-desc {
+  font-size: 13px;
+  color: var(--system-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tx-amt, .w-bal {
+  font-size: 17px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap; /* Prevent sign from wrapping to top line */
+}
+
+.tx-left {
+  flex: 1; /* Allow left side to take remaining space */
+  min-width: 0; /* Critical for text-overflow to work in flexbox */
+}
+
+.tx-right {
+  flex-shrink: 0; /* Prevent the amount from ever being squeezed */
+  margin-left: 12px;
+}
+
+.tx-expense .tx-amt { color: var(--danger); }
+.tx-income .tx-amt { color: var(--success); }
+
+/* iOS Forms */
+.modern-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--system-text-muted);
+  text-transform: uppercase;
+  padding-left: 10px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="datetime-local"],
+.modern-select {
+  background: var(--system-bg);
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 17px;
+  color: var(--system-text);
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+input:focus, .modern-select:focus {
+  background: var(--system-accent-muted);
+  outline: none;
+}
+
+.large-input {
+  font-size: 32px !important;
+  font-weight: 700;
+  text-align: center;
+  background: transparent !important;
+  border-bottom: 2px solid var(--border-separator) !important;
+  border-radius: 0 !important;
+  padding: 10px 0 !important;
+  margin-bottom: 15px;
+}
+
+.large-input:focus {
+  border-bottom-color: var(--system-accent) !important;
+}
+
+/* iOS Segmented Control (Type Selector) */
+.type-selector {
+  display: flex;
+  background: var(--system-bg);
+  padding: 2px;
+  border-radius: 9px;
+  margin-bottom: 10px;
+}
+
+.type-btn {
+  flex: 1;
+  text-align: center;
+  padding: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 7px;
+  color: var(--system-text);
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.type-btn.active {
+  background: var(--system-card);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  color: var(--system-accent) !important;
+}
+
+.period-btn {
+  font-size: 14px;
+  color: var(--system-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 4px 0;
+}
+
+.period-btn.active {
+  color: var(--system-accent);
+  font-weight: 700;
+  border-bottom: 2px solid var(--system-accent);
+}
+
+.period-btn:hover:not(.active) {
+  color: var(--system-text);
+}
+
+/* Chart Specifics */
+.chart-axis-label {
+  font-size: 10px;
+  fill: var(--system-text-muted);
+  font-weight: 500;
+}
+
+.chart-grid-line {
+  stroke: var(--border-separator);
+  stroke-dasharray: 2 2;
+}
+
+.chart-line-income {
+  stroke: var(--success);
+  stroke-width: 2.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-line-expense {
+  stroke: var(--danger);
+  stroke-width: 2.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-area-income {
+  fill: url(#gradient-income);
+  opacity: 0.15;
+}
+
+.chart-area-expense {
+  fill: url(#gradient-expense);
+  opacity: 0.15;
+}
+
+/* Updated FAB (iPhone Style) */
+.fab-btn {
+  position: fixed;
+  bottom: calc(var(--nav-height) + 20px);
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--system-accent);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
+  border: none;
+  z-index: 1001;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: floatFeather 4s ease-in-out infinite;
+}
+
+.fab-btn:active {
+  transform: scale(0.9);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+}
+
+.fab-btn svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+@keyframes floatFeather {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* iOS Modals (Sheets) */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end; /* Mobile sheet position */
+  animation: modalFade 0.3s ease;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: none;
+  background: var(--system-card);
+  border-radius: 20px 20px 0 0;
+  padding: 20px 20px 40px 20px;
+  box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+  transform-origin: bottom;
+  animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Utilities */
+.mb-4 { margin-bottom: 24px; }
+.text-muted { color: var(--system-text-muted); }
+/* iOS Switch Toggle */
+.ios-switch {
+  position: relative;
+  display: inline-block;
+  width: 51px;
+  height: 31px;
+}
+
+.ios-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--system-bg);
+  transition: .4s;
+  border-radius: 34px;
+  border: 1.5px solid var(--border-separator);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 27px;
+  width: 27px;
+  left: 1px;
+  bottom: 0.5px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+input:checked + .slider {
+  background-color: var(--success);
+  border-color: var(--success);
+}
+
+input:checked + .slider:before {
+  transform: translateX(19px);
+}
+
+/* Insight Cards (iOS Smart Stack) */
+.insights-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.insight-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--system-card);
+  border: 1px solid var(--border-separator);
+  box-shadow: var(--shadow-ios);
+  transition: transform 0.2s;
+}
+
+.insight-card:active {
+  transform: scale(0.98);
+}
+
+.insight-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.insight-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.insight-content {
+  flex: 1;
+}
+
+.insight-content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.insight-content p {
+  font-size: 13px;
+  color: var(--system-text-muted);
+  line-height: 1.4;
+}
+
+/* Variants */
+.insight-blue .insight-icon { background: rgba(0, 122, 255, 0.1); color: #007AFF; }
+.insight-yellow .insight-icon { background: rgba(255, 159, 10, 0.1); color: #FF9F0A; }
+.insight-red .insight-icon { background: rgba(255, 69, 58, 0.1); color: #FF453A; }
+.insight-green .insight-icon { background: rgba(52, 199, 89, 0.1); color: #34C759; }
+
+/* Dashboard Branding Sticky */
+.dashboard-branding-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: rgba(var(--system-bg-rgb), 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding: 16px 0;
+  margin: 0 -16px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 0.5px solid var(--border-separator);
+}
+
+:root { --system-bg-rgb: 242, 242, 247; }
+[data-theme="dark"] { --system-bg-rgb: 0, 0, 0; }
+
+.branding-content {
+  text-align: center;
+}
+
+.brand-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--system-accent);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.brand-tagline {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--system-text-muted);
+  margin: 2px 0 0 0;
+}
+
+/* Budget Components */
+.budget-item {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 0.5px solid var(--border-separator);
+}
+
+.budget-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.budget-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.budget-meta {
+  font-size: 11px;
+  color: var(--system-text-muted);
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--border-separator);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-fill.green { background: var(--success); }
+.progress-fill.yellow { background: var(--warning); }
+.progress-fill.red { background: var(--danger); }
