@@ -35,24 +35,36 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // Only cache GET requests
+  // 1. Only handle GET requests
   if (event.request.method !== 'GET') return;
   
-  // Stale-While-Revalidate Strategy
+  // 2. Bypass Service Worker for localhost (Development/Vite Client)
+  const url = new URL(event.request.url);
+  if (url.hostname === 'localhost' || url.port === '5173' || url.pathname.includes('@vite')) {
+    return;
+  }
+
+  // 3. Stale-While-Revalidate Strategy
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
       const fetchPromise = fetch(event.request).then(networkResponse => {
-        // Don't cache non-200 or non-basic responses
+        // Only cache 200/basic responses
         if(!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
           return networkResponse;
         }
         
+        const responseToCache = networkResponse.clone();
         caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, networkResponse.clone());
+          cache.put(event.request, responseToCache);
         });
         return networkResponse;
-      }).catch(err => console.log('Fetch failed, keeping cache.', err));
+      }).catch(err => {
+        console.log('Fetch failed, fallback to cache:', err);
+        // Do NOT return undefined, throw or allow browser fallback
+        throw err; 
+      });
 
+      // If we have a cached response, return it immediately; otherwise, wait for fetch
       return cachedResponse || fetchPromise;
     })
   );

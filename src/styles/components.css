@@ -47,22 +47,25 @@
   margin-bottom: 20px;
   box-shadow: var(--shadow-ios);
   border: 1px solid var(--border-separator);
+  /* Top-Glow Highlight for Dark Mode Depth */
+  border-top: 1px solid rgba(255, 255, 255, 0.03); 
 }
 
 /* Transaction & Wallet List Items (iOS List Style) */
 .transaction-list, .wallets-list {
-  background: var(--system-card);
+  background: rgba(var(--system-card-rgb), 0.8);
   border-radius: var(--radius-ios);
   overflow: hidden;
   box-shadow: var(--shadow-ios);
   border: 1px solid var(--border-separator);
+  backdrop-filter: blur(20px);
 }
 
 .tx-item, .wallet-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--system-card);
+  background: transparent; /* Let container handle background */
   padding: 12px 16px;
   border-bottom: 0.5px solid var(--border-separator);
   transition: background 0.2s;
@@ -153,6 +156,22 @@ input[type="datetime-local"],
 input:focus, .modern-select:focus {
   background: var(--system-accent-muted);
   outline: none;
+}
+
+/* Ensure select options are visible across all OS themes */
+.modern-select option {
+  color: #333333 !important; /* Standard dark gray for maximum visibility */
+  background-color: #FFFFFF !important;
+}
+
+/* Fix visibility inside the Hyper-Dashboard (Blue Card) */
+.net-worth-card input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.net-worth-card select option {
+  color: #333333 !important;
+  background-color: #FFFFFF !important;
 }
 
 .large-input {
@@ -513,3 +532,111 @@ input:checked + .slider:before {
 .progress-fill.green { background: var(--success); }
 .progress-fill.yellow { background: var(--warning); }
 .progress-fill.red { background: var(--danger); }
+
+/* Status Pulse Animations */
+@keyframes pulseRed {
+  0% { box-shadow: var(--shadow-ios); border-color: var(--border-separator); }
+  50% { box-shadow: 0 0 12px rgba(255, 69, 58, 0.4); border-color: rgba(255, 69, 58, 0.8); }
+  100% { box-shadow: var(--shadow-ios); border-color: var(--border-separator); }
+}
+
+@keyframes pulseYellow {
+  0% { box-shadow: var(--shadow-ios); border-color: var(--border-separator); }
+  50% { box-shadow: 0 0 12px rgba(255, 204, 0, 0.4); border-color: rgba(255, 204, 0, 0.8); }
+  100% { box-shadow: var(--shadow-ios); border-color: var(--border-separator); }
+}
+
+@keyframes pulseGreen {
+  0% { box-shadow: var(--shadow-ios); border-color: var(--border-separator); }
+  50% { box-shadow: 0 0 12px rgba(52, 199, 89, 0.4); border-color: rgba(52, 199, 89, 0.8); }
+  100% { box-shadow: var(--shadow-ios); border-color: var(--border-separator); }
+}
+
+.pulse-red { animation: pulseRed 1.5s infinite ease-in-out; border-width: 1.5px !important; }
+.pulse-yellow { animation: pulseYellow 3s infinite ease-in-out; border-width: 1.5px !important; }
+.pulse-green { animation: pulseGreen 3s infinite ease-in-out; border-width: 1.5px !important; }
+
+/* Ledger Headers & Items */
+.ledger-date-group {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.ledger-date-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--system-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-left: 4px;
+}
+
+.tx-item {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: white;
+  margin-bottom: 1px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.tx-item:hover {
+  background: rgba(var(--system-card-rgb), 0.03);
+}
+
+.tx-item:active {
+  background: rgba(var(--system-card-rgb), 0.08);
+  transform: scale(0.99);
+}
+
+.tx-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  backdrop-filter: blur(5px);
+}
+
+.tx-icon-wrapper.expense { background: rgba(255, 69, 58, 0.1); color: var(--danger); }
+.tx-icon-wrapper.income { background: rgba(52, 199, 89, 0.1); color: var(--success); }
+.tx-icon-wrapper.transfer { background: rgba(0, 122, 255, 0.1); color: var(--system-accent); }
+
+.tx-content {
+  flex: 1;
+  min-width: 0; /* Prevent text overflow issues */
+}
+
+.tx-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--system-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tx-meta {
+  display: block;
+  font-size: 12px;
+  color: var(--system-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tx-amount {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tx-amount.expense { color: var(--danger); }
+.tx-amount.income { color: var(--success); }
+.tx-amount.transfer { color: var(--system-accent); }

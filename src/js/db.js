@@ -89,6 +89,7 @@ export const DB = {
   }),
   updateWallet: (wallet) => put('wallets', wallet),
   getWallet: (id) => get('wallets', id),
+  deleteWallet: (id) => runTx('wallets', 'readwrite', (store) => store.delete(id)),
 
   // Transactions
   getTransactions: () => getAll('transactions'),

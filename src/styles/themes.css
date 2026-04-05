@@ -27,20 +27,20 @@
 
 /* iOS 16+ System Colors (Dark Mode) */
 [data-theme="dark"] {
-  --system-bg: #000000;
-  --system-card: #1C1C1E;
+  --system-bg: #00020A; /* Midnight Indigo Base */
+  --system-card: #11131C; /* Dimensional Indigo Surface */
   --system-text: #FFFFFF;
-  --system-text-muted: #8E8E93;
+  --system-text-muted: #94949C;
   --system-accent: #0A84FF;
   --system-accent-muted: #002D52;
   
-  --success: #30D158;
-  --danger: #FF453A;
+  --success: #32D74B; /* Vibrant OLED Green */
+  --danger: #FF453A; /* Vibrant OLED Red */
   --warning: #FF9F0A;
   
-  --border-light: rgba(84, 84, 88, 0.48);
-  --border-separator: rgba(84, 84, 88, 0.3);
-  --shadow-ios: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --border-light: rgba(255, 255, 255, 0.08); /* Translucent Edge */
+  --border-separator: rgba(255, 255, 255, 0.05); /* Soft Separator */
+  --shadow-ios: 0 8px 32px rgba(0, 0, 0, 0.6); /* Deep Depth */
 }
 
 /* Map existing aliases to new system for seamless migration */

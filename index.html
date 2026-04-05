@@ -8,6 +8,13 @@
     <meta name="description" content="The Ledger is the truth. High-performance offline financial tracker." />
     <link rel="manifest" href="/manifest.json" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      /* v1.1.0: Premium Glass Placeholder Styling for Blue Cards */
+      .blue-card-input::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
+        font-weight: 400;
+      }
+    </style>
   </head>
   <body>
     <div id="app" class="app-layout">
@@ -35,11 +42,11 @@
             </a>
           </div>
 
-          <a href="#" data-target="wallets" class="nav-link">
+          <a href="#" data-target="categories" class="nav-link">
             <span class="icon">
-              <svg viewBox="0 0 24 24"><path d="M20 7h-9l-1-1H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"></path></svg>
+              <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
             </span>
-            <span class="label">Wallets</span>
+            <span class="label">Category</span>
           </a>
           <a href="#" data-target="settings" class="nav-link">
             <span class="icon">
@@ -63,80 +70,158 @@
             </a>
           </div>
           
-          <div class="net-worth-card glass-card" style="background: linear-gradient(135deg, #007AFF, #5AC8FA); border: none; box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3); color: white;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-size: 13px; opacity: 0.8; font-weight: 500;">Total Net Worth</span>
-              <span id="btn-toggle-nw-visibility" style="cursor: pointer; opacity: 0.8; display: flex; align-items: center; padding: 4px;">
-                <!-- Eye icon will be injected by JS -->
-              </span>
+          <!-- Hyper-Dashboard Card -->
+          <div class="net-worth-card glass-card" style="background: linear-gradient(135deg, #007AFF, #5AC8FA); border: none; box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3); color: white; padding: 0; overflow: hidden; margin-bottom: 20px;">
+            <!-- Internal Tab Switcher -->
+            <div class="card-tabs-container" style="background: rgba(255, 255, 255, 0.1); padding: 6px; display: flex; gap: 4px; border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);">
+               <button class="card-tab active" data-tab="summary">Summary</button>
+               <button class="card-tab" data-tab="wallets">Wallets</button>
+               <button class="card-tab" data-tab="budgets">Budgets</button>
             </div>
-            <h1 id="net-worth-amount" style="margin-top: 4px; color: white !important; font-size: 32px; letter-spacing: -1px;">₱0.00</h1>
+
+            <!-- Tab Content: Summary -->
+            <div id="tab-summary" class="dashboard-tab-content active" style="padding: 16px 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 13px; opacity: 0.8; font-weight: 500;">Total Net Worth</span>
+                <span id="btn-toggle-nw-visibility" style="cursor: pointer; opacity: 0.8; display: flex; align-items: center; padding: 4px;"></span>
+              </div>
+              <h1 id="net-worth-amount" style="margin-top: 4px; color: white !important; font-size: 32px; letter-spacing: -1px;">₱0.00</h1>
+              <div style="text-align: left; margin-bottom: -15px; position: relative; z-index: 10;">
+                <span id="as-of-date" style="font-size: 11px; font-style: normal; font-weight: 500; opacity: 0.7; color: white;">As of Today</span>
+              </div>
+              <div class="monthly-summary-grid mt-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+                <div class="summary-item" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 14px; padding: 14px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                  <span style="font-size: 10px; text-transform: uppercase; font-weight: 800; opacity: 0.9; color: white; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">Income</span>
+                  <h4 id="month-income-amount" style="font-size: 17px; margin: 0; color: #00FF88 !important; font-weight: 700; letter-spacing: -0.5px;">₱0.00</h4>
+                </div>
+                <div class="summary-item" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 14px; padding: 14px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                  <span style="font-size: 10px; text-transform: uppercase; font-weight: 800; opacity: 0.9; color: white; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">Expenses</span>
+                  <h4 id="month-expense-amount" style="font-size: 17px; margin: 0; color: #FF3131 !important; font-weight: 700; letter-spacing: -0.5px;">₱0.00</h4>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab Content: Wallets (Add Form) -->
+            <div id="tab-wallets" class="dashboard-tab-content" style="padding: 16px 20px; display: none;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; font-size: 15px; font-weight: 700; opacity: 0.9; color: white;">Manage Wallets</h3>
+                <span class="text-white" style="font-size: 11px; opacity: 0.7;">(+) Add or Edit</span>
+              </div>
+              <form id="add-wallet-form" class="modern-form" autocomplete="off">
+                <input type="hidden" id="edit-wallet-id" value="">
+                <div style="display: flex; gap: 8px; flex-direction: column;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <input type="text" id="wallet-name" required placeholder="Wallet Name (e.g. Savings)" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 12px; font-weight: 500;" />
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <input type="number" id="wallet-balance" step="0.01" required placeholder="Balance" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 12px; font-weight: 500;" />
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 2; background: white; color: #007AFF; font-weight: 700; border: none;">Save Wallet</button>
+                    <button type="button" id="btn-cancel-wallet" class="btn btn-outline" style="flex: 1; border: 1.5px solid rgba(255,255,255,0.7); background: rgba(255,255,255,0.1); color: white; font-weight: 600;">Clear</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Tab Content: Budgets (Add Form) -->
+            <div id="tab-budgets" class="dashboard-tab-content" style="padding: 16px 20px; display: none;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; font-size: 15px; font-weight: 700; opacity: 0.9; color: white;">Monthly Targets</h3>
+                <span class="text-white" style="font-size: 11px; opacity: 0.7;">(+) Set Limit</span>
+              </div>
+              <form id="add-budget-form" class="modern-form" autocomplete="off">
+                <div style="display: flex; gap: 8px; flex-direction: column;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <select id="budget-category" class="modern-select" required style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 12px;"></select>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <input type="number" id="budget-amount" required placeholder="Monthly Limit" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 12px; font-weight: 500;" />
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 2; background: white; color: #007AFF; font-weight: 700; border: none;">Save Target</button>
+                    <button type="button" id="btn-clear-budget" class="btn btn-outline" style="flex: 1; border: 1.5px solid rgba(255,255,255,0.7); background: rgba(255,255,255,0.1); color: white; font-weight: 600;">Clear</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Dynamic Content Wrapper -->
+          <div id="dashboard-main-content">
             
-            <div style="text-align: left; margin-bottom: -15px; position: relative; z-index: 10;">
-              <span id="as-of-date" style="font-size: 11px; font-style: normal; font-weight: 500; opacity: 0.7; color: white;">As of Today</span>
-            </div>
-            <div class="monthly-summary-grid mt-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
-              <div class="summary-item" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 14px; padding: 14px; border: 1px solid rgba(255, 255, 255, 0.3);">
-                <span style="font-size: 10px; text-transform: uppercase; font-weight: 800; opacity: 0.9; color: white; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">Income</span>
-                <h4 id="month-income-amount" style="font-size: 17px; margin: 0; color: #00FF88 !important; font-weight: 700; letter-spacing: -0.5px;">₱0.00</h4>
+            <!-- Unified Analytics Container (Shown only when in Summary Tab) -->
+            <div id="dashboard-summary-content">
+              
+              <!-- Smart Insights Section -->
+              <div id="section-insights">
+                <div class="insights-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
+                  <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted);">Smart Insights</h3>
+                  <span id="btn-toggle-insights" style="font-size: 13px; color: var(--system-accent); cursor: pointer; font-weight: 500;">Hide</span>
+                </div>
+                <div id="dashboard-insights-container" class="insights-stack" style="margin-bottom: 24px;"></div>
               </div>
-              <div class="summary-item" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 14px; padding: 14px; border: 1px solid rgba(255, 255, 255, 0.3);">
-                <span style="font-size: 10px; text-transform: uppercase; font-weight: 800; opacity: 0.9; color: white; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">Expenses</span>
-                <h4 id="month-expense-amount" style="font-size: 17px; margin: 0; color: #FF3131 !important; font-weight: 700; letter-spacing: -0.5px;">₱0.00</h4>
+
+              <!-- Spending Trends Card -->
+              <div id="section-trends" class="glass-card mb-4" style="padding: 1rem 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 16px;">
+                  <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted);">Spending Trends</h3>
+                  <select id="analytics-mode" class="modern-select" style="padding: 4px 8px; font-size: 13px; width: auto; background: transparent; border: none; font-weight: 600; color: var(--system-accent);">
+                    <option value="absolute">Absolute</option>
+                    <option value="cumulative">Cumulative</option>
+                  </select>
+                </div>
+
+                <!-- NEW: Chart Period Selector (Restored) -->
+                <div id="analytics-period-btns" class="analytics-controls" style="display: flex; gap: 12px; padding: 0 16px 16px; justify-content: flex-start; overflow-x: auto;">
+                  <span class="period-btn" data-value="7">7D</span>
+                  <span class="period-btn active" data-value="30">30D</span>
+                  <span class="period-btn" data-value="90">90D</span>
+                  <span class="period-btn" data-value="365">1Y</span>
+                </div>
+
+                <div class="chart-container" style="max-width: none; height: 180px; margin: 0 0 8px 0; padding: 0 16px;">
+                  <svg id="spending-chart" viewBox="0 0 400 200" preserveAspectRatio="none" style="width: 100%; height: 100%; overflow: visible;"></svg>
+                </div>
+                
+                <div class="chart-legend" style="display: flex; justify-content: center; align-items: center; gap: 32px; padding: 12px 16px; border-top: 0.5px solid var(--border-separator);">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #34C759; box-shadow: 0 0 5px rgba(52, 199, 89, 0.3);"></span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--system-text-muted);">Income</span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #FF3B30; box-shadow: 0 0 5px rgba(255, 59, 48, 0.3);"></span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--system-text-muted);">Expenses</span>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div id="dashboard-budgets-section"></div>
-          </div>
 
-          <!-- Smart Insights Section -->
-          <div class="insights-header mt-4" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
-            <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted);">Smart Insights</h3>
-            <span id="btn-toggle-insights" style="font-size: 13px; color: var(--system-accent); cursor: pointer; font-weight: 500;">Hide</span>
-          </div>
-          <div id="dashboard-insights-container" class="insights-stack" style="overflow: hidden; transition: all 0.3s ease-out; margin-bottom: 24px;"></div>
-
-          <!-- Dashboard Analytics (Consolidated) -->
-          <div class="glass-card mb-4" style="padding: 1rem 0;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 16px;">
-              <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted);">Spending Trends</h3>
-              <select id="analytics-mode" class="modern-select" style="padding: 4px 8px; font-size: 13px; width: auto; background: transparent; border: none; font-weight: 600; color: var(--system-accent);">
-                <option value="absolute">Absolute</option>
-                <option value="cumulative">Cumulative</option>
-              </select>
-            </div>
-            
-            <div class="chart-container" style="max-width: none; height: 180px; margin: 0 0 8px 0; padding: 0 16px;">
-              <svg id="spending-chart" viewBox="0 0 400 200" preserveAspectRatio="none" style="width: 100%; height: 100%; overflow: visible;"></svg>
-            </div>
-
-            <!-- Enhanced Chart Legend -->
-            <div class="chart-legend" style="display: flex; justify-content: center; align-items: center; gap: 32px; padding: 12px 16px; border-top: 0.5px solid var(--border-separator);">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="width: 10px; height: 10px; border-radius: 50%; background: #34C759; box-shadow: 0 0 5px rgba(52, 199, 89, 0.3);"></span>
-                <span style="font-size: 12px; font-weight: 600; color: var(--system-text-muted);">Income</span>
+              <!-- Recent Activity Section -->
+              <div id="section-activity" class="recent-transactions mt-4">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
+                  <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted); margin: 0;">Recent Activity</h3>
+                  <span id="btn-toggle-activity" style="font-size: 13px; color: var(--system-accent); cursor: pointer; font-weight: 500;">Hide</span>
+                </div>
+                <div id="dashboard-recent-list" class="transaction-list"></div>
               </div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="width: 10px; height: 10px; border-radius: 50%; background: #FF3B30; box-shadow: 0 0 5px rgba(255, 59, 48, 0.3);"></span>
-                <span style="font-size: 12px; font-weight: 600; color: var(--system-text-muted);">Expenses</span>
-              </div>
+
             </div>
 
-            <div class="analytics-controls" style="display: flex; justify-content: center; align-items: center; padding: 0 16px;">
-              <div id="analytics-period-btns" style="display: flex; gap: 20px;">
-                <span class="period-btn" data-value="7">7D</span>
-                <span class="period-btn active" data-value="30">30D</span>
-                <span class="period-btn" data-value="90">90D</span>
-                <span class="period-btn" data-value="365">1Y</span>
+            <!-- List Mode Wrappers (Hidden in summary mode) -->
+            <div id="dashboard-wallets-list-wrapper" style="display: none;">
+              <div class="view-header" style="padding: 0 4px; margin-bottom: 12px;">
+                <h3 style="font-size: 15px; font-weight: 700; color: var(--system-text-muted);">Your Wallets</h3>
               </div>
+              <div id="wallets-list" class="wallets-grid"></div>
             </div>
-          </div>
 
-          <div class="recent-transactions mt-4">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
-              <h3 style="font-size: 15px; font-weight: 600; color: var(--system-text-muted); margin: 0;">Recent Activity</h3>
-              <span id="btn-toggle-activity" style="font-size: 13px; color: var(--system-accent); cursor: pointer; font-weight: 500;">Hide</span>
+            <div id="dashboard-budgets-list-wrapper" style="display: none;">
+              <div class="view-header" style="padding: 0 4px; margin-bottom: 12px;">
+                <h3 style="font-size: 15px; font-weight: 700; color: var(--system-text-muted);">Budget Status</h3>
+              </div>
+              <div id="settings-budgets-list" style="display: flex; flex-direction: column; gap: 0.8rem;"></div>
             </div>
-            <div id="dashboard-recent-list" class="transaction-list" style="overflow: hidden; transition: all 0.3s ease-out;"></div>
+
           </div>
         </section>
 
@@ -144,11 +229,25 @@
           <header class="view-header" style="margin-bottom: 0.8rem; border-bottom: none;">
             <h2>The Ledger</h2>
           </header>
-          <div style="display: flex; gap: 0.5rem; margin-bottom: 1.2rem; width: 100%;">
-            <input type="text" id="ledger-search" class="modern-select" placeholder="Search entries..." style="flex: 1.5; padding: 0.6rem 0.8rem;" />
-            <select id="ledger-wallet-filter" class="modern-select" style="flex: 1; padding: 0.6rem 0.8rem;">
-              <option value="all">All Wallets</option>
-            </select>
+          <!-- Ledger Filter Bar -->
+          <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem; background: rgba(var(--system-card-rgb), 0.4); padding: 12px; border-radius: 12px; border: 1px solid var(--border-separator);">
+            <div style="display: flex; gap: 0.6rem; width: 100%;">
+              <input type="text" id="ledger-search" class="modern-select" placeholder="Search categories, notes, amounts..." style="flex: 2; padding: 0.7rem 1rem; border-radius: 10px;" />
+              <select id="ledger-wallet-filter" class="modern-select" style="flex: 1; padding: 0.7rem; border-radius: 10px;">
+                <option value="all">All Wallets</option>
+              </select>
+            </div>
+            
+            <div style="display: flex; gap: 0.6rem; align-items: center; width: 100%;">
+              <div style="flex: 1; display: flex; align-items: center; gap: 8px; background: rgba(var(--system-card-rgb), 0.3); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border-separator);">
+                <span style="font-size: 11px; font-weight: 700; color: var(--system-text-muted); text-transform: uppercase;">From</span>
+                <input type="date" id="ledger-start-date" class="modern-select" style="border: none; background: transparent; padding: 0; font-size: 13px; color: var(--system-text); flex: 1;" />
+              </div>
+              <div style="flex: 1; display: flex; align-items: center; gap: 8px; background: rgba(var(--system-card-rgb), 0.3); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border-separator);">
+                <span style="font-size: 11px; font-weight: 700; color: var(--system-text-muted); text-transform: uppercase;">To</span>
+                <input type="date" id="ledger-end-date" class="modern-select" style="border: none; background: transparent; padding: 0; font-size: 13px; color: var(--system-text); flex: 1;" />
+              </div>
+            </div>
           </div>
           <div id="ledger-list" class="transaction-list"></div>
         </section>
@@ -158,7 +257,7 @@
             <h2>Add Entry</h2>
           </header>
           <div class="glass-card">
-            <form id="add-transaction-form" class="modern-form">
+            <form id="add-transaction-form" class="modern-form" autocomplete="off">
               <div id="add-tx-type-selector" class="analytics-controls mb-4" style="display: flex; gap: 20px; justify-content: flex-start; padding: 10px 0;">
                 <span class="period-btn active" data-value="expense">EXPENSES</span>
                 <span class="period-btn" data-value="income">INCOME</span>
@@ -201,30 +300,47 @@
           </div>
         </section>
 
-        <section id="view-wallets" class="view">
+        <section id="view-categories" class="view">
           <header class="view-header">
-            <h2>Wallets</h2>
-            <h3 id="wallets-total-amount" class="text-gold">₱0.00</h3>
+            <h2>Categories</h2>
+            <p class="text-muted" style="font-size: 13px;">Manage your spending tags</p>
           </header>
 
-          <div id="add-wallet-container" style="display:none;" class="glass-card mb-4">
-            <form id="add-wallet-form" class="modern-form">
-              <div class="form-group">
-                <label for="wallet-name">Wallet Name</label>
-                <input type="text" id="wallet-name" required placeholder="e.g. Cash Pocket" />
-              </div>
-              <div class="form-group">
-                <label for="wallet-balance">Initial Balance</label>
-                <input type="number" id="wallet-balance" step="0.01" value="0" />
-              </div>
-              <div class="form-actions" style="display: flex; gap: 10px;">
-                <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>
-                <button type="button" class="btn btn-outline" id="btn-cancel-wallet" style="flex: 1;">Cancel</button>
+          <!-- Add Form (Sticky Blue Card) -->
+          <div class="glass-card mb-4" style="padding: 24px; position: sticky; top: 12px; z-index: 100; background: linear-gradient(135deg, #007AFF, #5AC8FA); border: none; box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3); color: white;">
+            <form id="add-category-form" class="modern-form" autocomplete="off" style="overflow: hidden;">
+              <div style="display: flex; gap: 1.2rem; flex-direction: column;">
+                <div style="display: flex; gap: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0; flex: 1.5;">
+                    <label for="cat-name" style="color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block;">Category Name</label>
+                    <input type="text" id="cat-name" class="blue-card-input" required placeholder="e.g. Subscriptions" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white !important; padding: 14px; font-weight: 500; border-radius: 12px;" />
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                    <label for="cat-type" style="color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block;">Type</label>
+                    <select id="cat-type" class="modern-select blue-card-input" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 13px; font-weight: 500; border-radius: 12px;">
+                      <option value="expense" style="color: #000;">Expense</option>
+                      <option value="income" style="color: #000;">Income</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="cat-desc" style="color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block;">Description</label>
+                  <input type="text" id="cat-desc" class="blue-card-input" placeholder="Details (optional)" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white !important; padding: 14px; font-weight: 500; border-radius: 12px;" />
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 4px;">
+                  <button type="submit" class="btn btn-primary" style="flex: 2; background: white; color: #007AFF; font-weight: 700; border: none; padding: 14px; border-radius: 14px; font-size: 16px;">Add Category</button>
+                  <button type="reset" id="btn-cancel-cat" class="btn btn-outline" style="flex: 1; border: 1.5px solid rgba(255,255,255,0.7); background: rgba(255,255,255,0.1); color: white; font-weight: 600; padding: 14px; border-radius: 14px; font-size: 16px;">Clear</button>
+                </div>
               </div>
             </form>
           </div>
 
-          <div id="wallets-list" class="wallets-grid"></div>
+          <!-- Category List (Scrollable Context) -->
+          <div class="glass-card mb-4" style="padding: 16px;">
+            <div id="settings-categories-list" style="display: flex; flex-direction: column; gap: 0.8rem;">
+              <!-- Categories rendered via JS -->
+            </div>
+          </div>
         </section>
 
 
@@ -260,62 +376,15 @@
           <!-- System Data -->
           <div class="glass-card mb-4">
             <h3 class="mb-2">Backup & Restore</h3>
-            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">Export your full financial data to a JSON file, or restore from a previous backup. Restoring will overwrite existing data.</p>
+            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">Export your full financial data to a JSON file, or restore from a previous backup.</p>
             <div style="display: flex; gap: 1rem; align-items: flex-start; flex-wrap: nowrap;">
-              <button id="btn-export" class="btn btn-outline" style="flex: 0.4; padding: 0.8rem 0.5rem; white-space: nowrap; font-size: 13px;">Export Backup</button>
-              <div style="flex: 1; display:flex; flex-direction:column; gap:0.6rem; min-width: 0;">
-                <input type="file" id="restore-file" accept=".json" class="modern-select" style="width:100%; padding: 0.8rem; font-size: 13px; min-height: 44px; display: flex; align-items: center;" />
-                <button id="btn-restore-trigger" class="btn btn-danger" style="display: none; padding: 0.8rem; font-size: 14px; font-weight: 700; width: 100%;">Restore Now</button>
-              </div>
+              <button id="btn-export" class="btn btn-outline" style="flex: 1; padding: 0.8rem 0.5rem; white-space: nowrap; font-size: 13px;">Export JSON Backup</button>
+              <button id="btn-export-csv" class="btn btn-outline" style="flex: 1; padding: 0.8rem 0.5rem; white-space: nowrap; font-size: 13px; border-color: var(--system-accent); color: var(--system-accent);">Export Audit CSV</button>
             </div>
-          </div>
-
-          <div class="glass-card mb-4" style="background: transparent; box-shadow: none; padding: 0;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 1rem;">
-              <h3 style="margin: 0; font-size: 17px; font-weight: 600;">Categories</h3>
-              <span id="btn-toggle-categories" style="font-size: 13px; color: var(--system-accent); cursor: pointer; font-weight: 500;">Hide</span>
-            </div>
-            
-            <div id="settings-categories-wrapper" style="overflow: hidden; transition: all 0.3s ease-out;">
-            <form id="add-category-form" class="modern-form mb-4 glass-card" style="padding:1rem;">
-              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: flex-end;">
-                <div class="form-group" style="flex:1; min-width: 140px; margin-bottom: 0;">
-                  <label for="cat-name">Category Name</label>
-                  <input type="text" id="cat-name" required placeholder="e.g. Subscriptions" />
-                </div>
-                <div class="form-group" style="flex:2; min-width: 200px; margin-bottom: 0;">
-                  <label for="cat-desc">Description</label>
-                  <input type="text" id="cat-desc" placeholder="Details (optional)" />
-                </div>
-                <button type="submit" class="btn btn-primary" style="margin-bottom:0; padding: 0.6rem 1.2rem;">Add</button>
-              </div>
-            </form>
-
-            <div id="settings-categories-list" style="display: flex; flex-direction: column; gap: 0.8rem;">
-              <!-- Cascading cards rendered via JS -->
-            </div>
-          </div>
-        </div>
-
-          <div class="glass-card mb-4" style="background: transparent; box-shadow: none; padding: 0;">
-            <h3 class="mb-2" style="padding: 0 1rem;">Monthly Budget Targets</h3>
-            
-            <form id="add-budget-form" class="modern-form mb-4 glass-card" style="padding:1rem;">
-              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: flex-end;">
-                <div class="form-group" style="flex:1; min-width: 140px; margin-bottom: 0;">
-                  <label for="budget-category">Category</label>
-                  <select id="budget-category" class="modern-select" required></select>
-                </div>
-                <div class="form-group" style="flex:1; min-width: 120px; margin-bottom: 0;">
-                  <label for="budget-amount">Monthly Limit</label>
-                  <input type="number" id="budget-amount" required placeholder="0.00" step="0.01" />
-                </div>
-                <button type="submit" class="btn btn-primary" style="margin-bottom:0; padding: 0.6rem 1.2rem;">Save</button>
-              </div>
-            </form>
-
-            <div id="settings-budgets-list" style="display: flex; flex-direction: column; gap: 0.8rem;">
-              <!-- Budgets list rendered via JS -->
+            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.6rem;">
+              <label for="restore-file" style="font-size: 12px; font-weight: 600; color: var(--system-text-muted);">Restore from JSON</label>
+              <input type="file" id="restore-file" accept=".json" class="modern-select" style="width:100%; padding: 0.8rem; font-size: 13px; min-height: 44px; display: flex; align-items: center;" />
+              <button id="btn-restore-trigger" class="btn btn-danger" style="display: none; padding: 0.8rem; font-size: 14px; font-weight: 700; width: 100%;">Restore Now</button>
             </div>
           </div>
         </section>
