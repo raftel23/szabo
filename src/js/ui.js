@@ -539,15 +539,6 @@ function renderGoals() {
   });
 }
 
-function bindHelp() {
-  const btnOpen = document.getElementById('btn-open-help');
-
-  if (btnOpen) {
-    btnOpen.addEventListener('click', () => {
-      window.open('https://gemini.google.com/', '_blank');
-    });
-  }
-}
 
 async function refreshData() {
   wallets = await DB.getWallets();
@@ -2035,4 +2026,111 @@ function bindCategoryForm() {
     const activeTxType = document.querySelector('#add-tx-type-selector .period-btn.active')?.getAttribute('data-value') || 'expense';
     updateCategoryDatalist(activeTxType);
   });
+}
+
+// SIG (Szabo Interactive Guide)
+let activeHelpStep = 0;
+const helpSteps = [
+  {
+    title: "Welcome aboard!",
+    text: "I'm your financial coach. Together, we're going to transform your relationship with money. Ready to see how?",
+    icon: "👋"
+  },
+  {
+    title: "The Truth Card",
+    text: "Your Dashboard is the 'Truth.' It shows your real Net Worth. High numbers are great, but CONSISTENCY is your real goal here.",
+    icon: "📊"
+  },
+  {
+    title: "The Ledger",
+    text: "Every transaction tells your story. Use filters to find where you're overspending and where you're winning.",
+    icon: "📖"
+  },
+  {
+    title: "Predictive Advisor",
+    text: "Check your Goals often! My assistant analyzes your behavior and tells you exactly when you'll reach your destination based on your current pace.",
+    icon: "🔮"
+  },
+  {
+    title: "Take Szabo Everywhere",
+    text: "For the best experience, tap your browser's share icon and select 'Add to Home Screen.' I'll sit right on your phone as a premium app!",
+    icon: "📲"
+  }
+];
+
+function bindHelp() {
+  const btnHelp = document.getElementById('btn-open-help');
+  const btnNext = document.getElementById('btn-help-next');
+  const btnPrev = document.getElementById('btn-help-prev');
+  const modal = document.getElementById('help-guide-modal');
+
+  if (btnHelp) {
+    btnHelp.onclick = (e) => {
+      e.preventDefault();
+      openHelpGuide();
+    };
+  }
+
+  if (btnNext) {
+    btnNext.onclick = () => {
+      if (activeHelpStep < helpSteps.length - 1) {
+        activeHelpStep++;
+        renderHelpStep();
+      } else {
+        closeModal(document.getElementById('help-guide-modal'));
+      }
+    };
+  }
+
+  if (btnPrev) {
+    btnPrev.onclick = () => {
+      if (activeHelpStep > 0) {
+        activeHelpStep--;
+        renderHelpStep();
+      }
+    };
+  }
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal(modal);
+    });
+  }
+}
+
+function openHelpGuide() {
+  activeHelpStep = 0;
+  const modal = document.getElementById('help-guide-modal');
+  if (modal) {
+    modal.style.display = 'flex';
+    renderHelpStep();
+  }
+}
+
+function renderHelpStep() {
+  const step = helpSteps[activeHelpStep];
+  const container = document.getElementById('help-guide-content');
+  const dotsContainer = document.getElementById('help-guide-dots');
+  const btnNext = document.getElementById('btn-help-next');
+  const btnPrev = document.getElementById('btn-help-prev');
+  
+  if (!container) return;
+
+  // Render Dots
+  dotsContainer.innerHTML = helpSteps.map((_, i) => `
+    <div style="width: 6px; height: 6px; border-radius: 50%; background: ${i === activeHelpStep ? 'var(--system-accent)' : 'rgba(var(--system-card-rgb), 0.2)'}; transition: all 0.3s ease; transform: scale(${i === activeHelpStep ? 1.5 : 1});"></div>
+  `).join('');
+
+  // Handle Buttons
+  btnPrev.style.display = activeHelpStep === 0 ? 'none' : 'block';
+  btnNext.textContent = activeHelpStep === helpSteps.length - 1 ? 'Start Winning' : 'Next Step';
+
+  // Render Content with Coach Tone
+  container.innerHTML = `
+    <div style="text-align: center; animation: modalSlideDown 0.4s ease-out;">
+      <div style="font-size: 54px; margin-bottom: 24px;">${step.icon}</div>
+      <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 12px; color: var(--system-text); letter-spacing: -0.5px;">${step.title}</h3>
+      <p style="font-size: 15px; line-height: 1.6; color: var(--system-text-muted); margin-bottom: 0;">${step.text}</p>
+    </div>
+  `;
 }
