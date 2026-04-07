@@ -3,14 +3,20 @@
   "short_name": "Szabo",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FDF5E6",
-  "theme_color": "#1B4D3E",
+  "background_color": "#000000",
+  "theme_color": "#007AFF",
   "icons": [
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
     {
       "src": "/icon.svg",
       "type": "image/svg+xml",
-      "sizes": "512x512",
-      "purpose": "any maskable"
+      "sizes": "any",
+      "purpose": "any"
     }
   ]
 }
