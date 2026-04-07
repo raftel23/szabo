@@ -1,7 +1,7 @@
 // db.js - IndexedDB Wrapper
 
 const DB_NAME = 'SzaboLedger';
-const DB_VERSION = 2;
+const DB_VERSION = 4;
 
 let db;
 
@@ -41,6 +41,17 @@ export function initDB() {
       // Categories Store
       if (!db.objectStoreNames.contains('categories')) {
         db.createObjectStore('categories', { keyPath: 'name' });
+      }
+
+      // Goals Store
+      if (!db.objectStoreNames.contains('goals')) {
+        db.createObjectStore('goals', { keyPath: 'id' });
+      }
+
+      // Goal History Store
+      if (!db.objectStoreNames.contains('goal_history')) {
+        const historyStore = db.createObjectStore('goal_history', { keyPath: 'id' });
+        historyStore.createIndex('goal_id', 'goal_id', { unique: false });
       }
     };
   });
@@ -126,6 +137,51 @@ export const DB = {
   updateCategory: (category) => put('categories', category),
   deleteCategory: (name) => runTx('categories', 'readwrite', (store) => store.delete(name)),
 
+  // Goals
+  getGoals: () => getAll('goals'),
+  addGoal: (goal) => put('goals', { id: crypto.randomUUID(), ...goal }),
+  updateGoal: (goal) => put('goals', goal),
+  deleteGoal: async (id) => {
+    await runTx('goal_history', 'readwrite', (store) => {
+      const index = store.index('goal_id');
+      const request = index.openCursor(IDBKeyRange.only(id));
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          cursor.delete();
+          cursor.continue();
+        }
+      };
+    });
+    return runTx('goals', 'readwrite', (store) => store.delete(id));
+  },
+
+  // Goal History
+  getGoalHistory: async (goalId) => {
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction('goal_history', 'readonly');
+      const store = transaction.objectStore('goal_history');
+      const index = store.index('goal_id');
+      const request = index.getAll(IDBKeyRange.only(goalId));
+      request.onsuccess = (e) => resolve(e.target.result);
+      request.onerror = (e) => reject(e.target.error);
+    });
+  },
+  addGoalHistory: (item) => put('goal_history', { id: crypto.randomUUID(), ...item }),
+  deleteGoalHistory: async (goalId) => {
+    return runTx('goal_history', 'readwrite', (store) => {
+      const index = store.index('goal_id');
+      const request = index.openCursor(IDBKeyRange.only(goalId));
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          cursor.delete();
+          cursor.continue();
+        }
+      };
+    });
+  },
+
   // System
   clearStore: (storeName) => clearStore(storeName),
   restoreData: async (data) => {
@@ -133,6 +189,8 @@ export const DB = {
     await clearStore('transactions');
     try { await clearStore('categories'); } catch(e){}
     try { await clearStore('budgets'); } catch(e){}
+    try { await clearStore('goals'); } catch(e){}
+    try { await clearStore('goal_history'); } catch(e){}
 
     if(data.wallets) {
       for(const w of data.wallets) await put('wallets', w);
@@ -145,6 +203,12 @@ export const DB = {
     }
     if(data.budgets) {
       for(const b of data.budgets) await put('budgets', b);
+    }
+    if(data.goals) {
+      for(const g of data.goals) await put('goals', g);
+    }
+    if(data.goal_history) {
+      for(const h of data.goal_history) await put('goal_history', h);
     }
   }
 };
